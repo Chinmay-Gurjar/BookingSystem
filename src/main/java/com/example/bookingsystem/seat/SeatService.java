@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SeatService {
@@ -22,14 +23,16 @@ public class SeatService {
     public void bookSeat(List<String> ids) {
         List<Seat> seats = seatRepository.findAllById(ids);
         for (Seat seat : seats) {
-            System.out.println(seat.getId());
-            System.out.println(seat.getBooked());
             if (!seat.getBooked()) {
                 seat.setBooked(true);
-                System.out.println(seat.getBooked());
             }
         }
-        System.out.println(seats);
         seatRepository.saveAll(seats);
+    }
+
+    public boolean checkSeatAvailablilty(String id) {
+        System.out.println("HEHHEHE");
+        Optional<Seat> seat = seatRepository.findById(id);
+        return seat.get().getBooked();
     }
 }
